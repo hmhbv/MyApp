@@ -19,6 +19,8 @@ pipeline {
     stage('Run Container') {
       steps {
         script {
+          sh 'docker run -d -p 3000:80 --name myapp-container my-app:1.0'
+          sh 'docker run -d -p 8080:80 --name myapp-container my-app:1.0'
           sh 'docker run -d -p 8080:80 --name myapp-container my-app:1.0'
         }
       }
