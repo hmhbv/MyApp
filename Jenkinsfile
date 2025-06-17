@@ -1,9 +1,10 @@
 pipeline {
-  agent { none
-  }
-   dockerfile {
-      filename 'Dokerfile'
+  agent { 
+    dockerfile {
+      filename 'Dockerfile'
     }
+  }
+  
   stages {
     stage('Clone Repository') {
       steps {
@@ -14,9 +15,8 @@ pipeline {
     stage('Build Docker Image') {
       steps {
         script {
-          sh 'docker build -t my-app:1.0 .'
+          sh 'docker build -t my-app:1.0 -f Dockerfile .'
         }
-
       }
     }
 
@@ -25,9 +25,7 @@ pipeline {
         script {
           sh 'docker run -d -p 8080:80 --name myapp-container my-app:1.0'
         }
-
       }
     }
-
   }
 }
