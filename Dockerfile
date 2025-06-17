@@ -1,7 +1,8 @@
-FROM node:13-alpine
+FROM node:24-alpine
 
 ENV MONGO_DB_USERNAME=admin \
-    MONGO_DB_PWD=password
+    MONGO_DB_PWD=password \
+    PORT=3000
 
 RUN mkdir -p /home/app
 

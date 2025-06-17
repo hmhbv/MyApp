@@ -1,11 +1,19 @@
-version: '3'
+version: '3.8'
 services:
-  # my-app:
-  # image: ${docker-registry}/my-app:1.0
-  # ports:
-  # - 3000:3000
-  mongodb:
+  my-app:
+    image: my-app:1.0
+    container_name: my-app
+    ports:
+      - 3000:3000
+    environment:
+      - DOCKER_COMPOSE=true  # Set environment variable to indicate it's running inside Docker Compose
+    depends_on:
+      - mongo  # Ensure mongo is started before my-app
+
+  mongo:
     image: mongo
+    container_name: mongo
+    restart: always
     ports:
       - 27017:27017
     environment:
@@ -13,15 +21,20 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=password
     volumes:
       - mongo-data:/data/db
+
   mongo-express:
     image: mongo-express
-    restart: always # fixes MongoNetworkError when mongodb is not ready when mongo-express starts
+    container_name: mongo-express
+    depends_on:
+      - mongo
+    restart: always
     ports:
-      - 8080:8081
+      - 8081:8081
     environment:
       - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
       - ME_CONFIG_MONGODB_ADMINPASSWORD=password
-      - ME_CONFIG_MONGODB_SERVER=mongodb
+      - ME_CONFIG_MONGODB_SERVER=mongo
+
 volumes:
   mongo-data:
     driver: local

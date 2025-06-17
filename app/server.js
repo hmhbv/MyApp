@@ -20,13 +20,16 @@ app.get('/profile-picture', function (req, res) {
   res.end(img, 'binary');
 });
 
-// use when starting application locally
-let mongoUrlLocal = "mongodb://admin:password@localhost:27017";
+// MongoDB URIs
+let mongoUrlLocal = "mongodb://admin:password@mongo:27017";  // Use localhost when running locally
+let mongoUrlDocker = "mongodb://admin:password@mongo";   // MongoDB container in Docker
+ // Docker Compose URI
+let mongoUrlDockerCompose = "mongodb://admin:password@mongo/my-db?authSource=admin";
 
-// use when starting application as docker container
-let mongoUrlDocker = "mongodb://admin:password@mongodb";
+// Determine the MongoDB URI based on the environment
+let mongoUrl = process.env.DOCKER_COMPOSE ? mongoUrlDockerCompose : mongoUrlLocal; // Fallback to local if not Docker Compose
 
-// pass these options to mongo client connect request to avoid DeprecationWarning for current Server Discovery and Monitoring engine
+// MongoClient options to avoid DeprecationWarning for current Server Discovery and Monitoring engine
 let mongoClientOptions = { useNewUrlParser: true, useUnifiedTopology: true };
 
 // "user-account" in demo with docker. "my-db" in demo with docker-compose
