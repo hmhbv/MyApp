@@ -19,9 +19,21 @@ pipeline {
     stage('Run Container') {
       steps {
         script {
-          sh 'docker run -d -p 3000:80 --name myapp my-app:1.0'
-          sh 'docker run -d -p 27017:27017 --name Mongo mongo:latest'
+          sh 'docker run -d -p 27017:27017 --name mongo mongo:latest
+        }
+      }
+    }
+      stage('Run Container') {
+      steps {
+        script {
           sh 'docker run -d -p 8081:8081 --name mongo-express mongo-express:latest'
+        }
+      }
+    }
+    stage('Run Container') {
+      steps {
+        script {
+          sh 'docker run -d -p 3000:80 --name myapp my-app:1.0'
         }
       }
     }
