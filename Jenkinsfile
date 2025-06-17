@@ -16,24 +16,26 @@ pipeline {
       }
     }
 
-    stage('Run Container') {
+    stage('Run MongoDB') {
       steps {
         script {
-          sh 'docker run -d -p 27017:27017 --name mongo mongo:latest
+          sh 'docker run -d -p 27017:27017 --name mongo mongo:latest'
         }
       }
     }
-      stage('Run Container') {
+
+    stage('Run Mongo-Express') {
       steps {
         script {
-          sh 'docker run -d -p 8081:8081 --name mongo-express mongo-express:latest'
+          sh 'docker run -d --link mongo:mongo -p 8081:8081 --name mongo-express mongo-express:latest'
         }
       }
     }
-    stage('Run Container') {
+
+    stage('Run MyApp') {
       steps {
         script {
-          sh 'docker run -d -p 3000:80 --name myapp my-app:1.0'
+          sh 'docker run -d --link mongo-express:mongo-express -p 3000:80 --name myapp my-app:1.0'
         }
       }
     }
