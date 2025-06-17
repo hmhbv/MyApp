@@ -1,7 +1,7 @@
 pipeline {
-  agent { 
-    dockerfile {
-      filename 'Dockerfile'
+  agent {
+    docker {
+      image 'docker:latest'
     }
   }
   
