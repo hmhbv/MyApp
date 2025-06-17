@@ -1,10 +1,9 @@
 pipeline {
   agent { none
-    dockerfile {
+  }
+   dockerfile {
       filename 'Dokerfile'
     }
-
-  }
   stages {
     stage('Clone Repository') {
       steps {
