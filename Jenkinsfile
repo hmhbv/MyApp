@@ -82,15 +82,4 @@ pipeline {
       }
     }
   }
-
-  post {
-    always {
-      echo '🧹 Cleaning up containers, volumes, and network...'
-      sh '''
-        docker rm -f myapp mongo mongo-express || true
-        docker volume rm mongo-data || true
-        docker network rm myapp-network || true
-      '''
-    }
-  }
 }
