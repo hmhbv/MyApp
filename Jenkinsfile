@@ -15,11 +15,15 @@ pipeline {
         }
       }
     }
-
+    stage('Create Network') {
+       steps {
+           sh 'docker network create myapp-network'
+       }
+   }
     stage('Run MongoDB') {
       steps {
         script {
-          sh 'docker run -d -p 27017:27017 --name mongo mongo:latest'
+          sh 'docker run -d -p 27017:27017 --network myapp-netowrk --name mongo mongo:latest'
         }
       }
     }
@@ -27,7 +31,7 @@ pipeline {
     stage('Run Mongo-Express') {
       steps {
         script {
-          sh 'docker run -d --link mongo:mongo -p 8081:8081 --name mongo-express mongo-express:latest'
+          sh 'docker run -d --link mongo:mongo -p 8081:8081 --network myapp-netowrk --name mongo-express mongo-express:latest'
         }
       }
     }
@@ -35,7 +39,7 @@ pipeline {
     stage('Run MyApp') {
       steps {
         script {
-         sh 'sleep 10 && docker run -d -p 3000:3000 --name myapp my-app:1.0'
+         sh 'sleep 10 && docker run -d -p 3000:3000 --network myapp-netowrk --name myapp my-app:1.0'
         }
       }
     }
