@@ -68,3 +68,7 @@ Step 5: access the nodejs application from browser
     docker build -t my-app:1.0 .       
     
 The dot "." at the end of the command denotes location of the Dockerfile.
+
+### Usage of the Jenkins Files
+ The actual Jenkisfile uses Dockerfile and pipelines statements to create the image, network, containers, volumes and to run them. 
+ Jenkinsfile.bak uses doker-compose file. 
